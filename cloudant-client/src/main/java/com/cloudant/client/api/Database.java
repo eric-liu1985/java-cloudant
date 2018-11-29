@@ -494,14 +494,36 @@ public class Database {
      */
     public <T> QueryResult<T> query(String query, final Class<T> classOfT) {
         URI uri = new DatabaseURIHelper(db.getDBUri()).path("_find").build();
+        return this.query(uri, query, classOfT);
+    }
+
+    /**
+     * Execute a partitioned query using an index and a query selector.
+     *
+     * @param partitionKey Database partition to query.
+     * @param query        String representation of a JSON object describing criteria used to
+     *                     select documents.
+     * @param classOfT     The class of Java objects to be returned in the {@code docs} field of
+     *                     result.
+     * @param <T>          The type of the Java object to be returned in the {@code docs} field of
+     *                     result.
+     * @return             A {@link QueryResult} object, containing the documents matching the query
+     *                     in the {@code docs} field.
+     * @see com.cloudant.client.api.Database#query(String, Class)
+     */
+    public <T> QueryResult<T> query(String partitionKey, String query, final Class<T> classOfT) {
+        URI uri = new DatabaseURIHelper(db.getDBUri()).partition(partitionKey).path("_find").build();
+        return this.query(uri, query, classOfT);
+    }
+
+    private <T> QueryResult<T> query(URI uri, String query, final Class<T> classOfT) {
         InputStream stream = null;
         try {
             stream = client.couchDbClient.executeToInputStream(createPost(uri, query,
                     "application/json"));
             Reader reader = new InputStreamReader(stream, "UTF-8");
             Type type = TypeToken.getParameterized(QueryResult.class, classOfT).getType();
-            QueryResult<T> result = client.getGson().fromJson(reader, type);
-            return result;
+            return client.getGson().fromJson(reader, type);
         } catch (UnsupportedEncodingException e) {
             // This should never happen as every implementation of the java platform is required
             // to support UTF-8.
