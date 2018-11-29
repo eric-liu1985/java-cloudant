@@ -1,4 +1,5 @@
 # UNRELEASED
+- [NEW] Add partitioned database support.
 - [NEW] Add `purge_seq` getter on `DbInfo` class that returns sequence value as `String`.
 - [DEPRECATED] `com.cloudant.client.api.model.DbInfo#getPurgeSeq()`.
 
