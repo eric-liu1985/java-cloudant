@@ -602,7 +602,21 @@ public class Database {
      * target="_blank">Search</a>
      */
     public Search search(String searchIndexId) {
-        return new Search(client, this, searchIndexId);
+        return new Search(client, this, null, searchIndexId);
+    }
+
+    /**
+     * Provides access to partitioned Cloudant <tt>Search</tt> APIs.
+     *
+     * @param partitionKey database partition key
+     * @param searchIndexId the design document with the name of the index to search
+     * @return Search object for searching the index
+     * @see <a
+     * href="https://console.bluemix.net/docs/services/Cloudant/api/search.html#search"
+     * target="_blank">Search</a>
+     */
+    public Search search(String partitionKey, String searchIndexId) {
+        return new Search(client, this, partitionKey, searchIndexId);
     }
 
     /**

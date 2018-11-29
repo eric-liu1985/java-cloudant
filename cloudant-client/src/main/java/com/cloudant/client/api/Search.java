@@ -95,19 +95,30 @@ public class Search {
     private String bookmark;
     private CloudantClient client;
     private DatabaseURIHelper databaseHelper;
+    private final String partitionKey;
 
-
-    Search(CloudantClient client, Database db, String searchIndexId) {
+    Search(CloudantClient client, Database db, String partitionKey, String searchIndexId) {
         assertNotEmpty(searchIndexId, "searchIndexId");
         this.client = client;
+        this.partitionKey = partitionKey;
         String search = searchIndexId;
+        this.databaseHelper = new DatabaseURIHelper(db.getDBUri()).partition(partitionKey);
         if (searchIndexId.contains("/")) {
             String[] v = searchIndexId.split("/");
-            this.databaseHelper = new DatabaseURIHelper(db.getDBUri()).path("_design")
+            this.databaseHelper.path("_design")
                 .path(v[0]).path("_search").path(v[1]);
         } else {
-            this.databaseHelper = new DatabaseURIHelper(db.getDBUri()).path(search);
+            this.databaseHelper.path(search);
         }
+    }
+
+    /**
+     * Get partition key.
+     *
+     * @return partition key
+     */
+    public String getPartitionKey() {
+        return partitionKey;
     }
 
     // Query options
