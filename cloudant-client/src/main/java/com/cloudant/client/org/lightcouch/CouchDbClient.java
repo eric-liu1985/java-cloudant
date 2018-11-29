@@ -206,13 +206,30 @@ public class CouchDbClient {
     }
 
     /**
-     * Requests CouchDB creates a new database; if one doesn't exist.
+     * Requests CouchDB creates a new, non-partitioned database; if one doesn't exist.
      *
      * @param dbName The Database name
      */
     public void createDB(String dbName) {
+        this.createDB(dbName, false);
+    }
+
+    /**
+     * Requests CouchDB creates a new, partitioned database; if one doesn't exist.
+     *
+     * @param dbName The Database name
+     */
+    public void createPartitionedDB(String dbName) {
+        this.createDB(dbName, true);
+    }
+
+    private void createDB(String dbName, Boolean partitioned) {
         assertNotEmpty(dbName, "dbName");
-        final URI uri = new DatabaseURIHelper(getBaseUri(), dbName).getDatabaseUri();
+        DatabaseURIHelper uriHelper = new DatabaseURIHelper(getBaseUri(), dbName);
+        if (partitioned) {
+            uriHelper.query("partitioned", true);
+        }
+        final URI uri = uriHelper.build();
         executeToResponse(Http.PUT(uri, "application/json"));
         log.info(String.format("Created Database: '%s'", dbName));
     }

@@ -251,6 +251,26 @@ public class CloudantClient {
     }
 
     /**
+     * Request to create a new partitioned database with the specified name.
+     *
+     * A partitioned database introduces the ability for a user to create logical groups of
+     * documents called partitions by providing a partition key with each document. Operations on
+     * the database, specifically querying, will be extended to take partition keys as part of the
+     * request in order to constrain the operation (e.g., result set) to a specific partition.
+     *
+     * @param dbName the database name
+     * @throws com.cloudant.client.org.lightcouch.PreconditionFailedException if a database with
+     *                                                                        the same name
+     *                                                                        already exists
+     * @see <a target="_blank"
+     * href="https://console.bluemix.net/docs/services/Cloudant/api/database.html#create">
+     * Databases - create</a>
+     */
+    public void createPartitionedDB(String dbName) {
+        couchDbClient.createPartitionedDB(dbName);
+    }
+
+    /**
      * @return The base URI.
      */
     public URI getBaseUri() {
