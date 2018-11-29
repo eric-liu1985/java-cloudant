@@ -25,6 +25,11 @@ import com.google.gson.annotations.SerializedName;
  * @author Ganesh K Choudhary
  */
 public class DbInfo {
+
+    private static class DbInfoProps {
+        private Boolean partitioned = false;
+    }
+
     @SerializedName("db_name")
     private String dbName;
     @SerializedName("doc_count")
@@ -43,6 +48,7 @@ public class DbInfo {
     private long instanceStartTime;
     @SerializedName("disk_format_version")
     private int diskFormatVersion;
+    private DbInfoProps props;
 
     public String getDbName() {
         return dbName;
@@ -107,6 +113,10 @@ public class DbInfo {
 
     public int getDiskFormatVersion() {
         return diskFormatVersion;
+    }
+
+    public Boolean getPartitioned() {
+        return props.partitioned;
     }
 
     @Override
