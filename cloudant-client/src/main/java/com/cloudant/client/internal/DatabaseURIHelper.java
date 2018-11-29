@@ -192,4 +192,15 @@ public class DatabaseURIHelper extends URIBaseMethods<DatabaseURIHelper> {
         return returnThis();
     }
 
+    /**
+     * Set the database partition for the URI (iff partition key is non-null).
+     */
+    public DatabaseURIHelper partition(String partitionKey) {
+        if (partitionKey == null) {
+            return returnThis();
+        }
+        this.path("_partition").path(partitionKey);
+        return returnThis();
+    }
+
 }
