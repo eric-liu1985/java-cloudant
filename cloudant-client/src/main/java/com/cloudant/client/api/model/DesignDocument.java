@@ -81,6 +81,7 @@ public class DesignDocument extends com.cloudant.client.org.lightcouch.Document 
     private Map<String, String> shows;
     private Map<String, String> lists;
     private Map<String, String> updates;
+    private Map<String, Boolean> options;
     private JsonArray rewrites;
     private JsonObject fulltext;
     private JsonObject indexes;
@@ -200,6 +201,15 @@ public class DesignDocument extends com.cloudant.client.org.lightcouch.Document 
     }
 
     /**
+     * Get the options defined in this design document.
+     *
+     * @return map of options
+     */
+    public Map<String, Boolean> getOptions() {
+        return options;
+    }
+
+    /**
      * Set the language of the design document.
      *
      * @param language typically {@code "javascript"}
@@ -309,6 +319,15 @@ public class DesignDocument extends com.cloudant.client.org.lightcouch.Document 
      */
     public void setUpdates(Map<String, String> updates) {
         this.updates = updates;
+    }
+
+    /**
+     * Set the options in this design document.
+     *
+     * @param options map of options
+     */
+    public void setOptions(Map<String, Boolean> options) {
+        this.options = options;
     }
 
     @Override
