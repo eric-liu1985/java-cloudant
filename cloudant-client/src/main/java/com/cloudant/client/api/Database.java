@@ -616,6 +616,8 @@ public class Database {
     }
 
     /**
+     * Get a builder for creating view requests.
+     *
      * @param designDoc containing the view
      * @param viewName  the view name
      * @return a builder to build view requests for the specified design document and view of
@@ -625,7 +627,24 @@ public class Database {
      * target="_blank">Using views</a>
      */
     public ViewRequestBuilder getViewRequestBuilder(String designDoc, String viewName) {
-        return new ViewRequestBuilder(client, this, designDoc, viewName);
+        return new ViewRequestBuilder(client, this, null, designDoc, viewName);
+    }
+
+    /**
+     * Get a builder for creating partitioned view requests.
+     *
+     * @param partitionKey database partition key
+     * @param designDoc containing the view
+     * @param viewName  the view name
+     * @return a builder to build view requests for the specified design document and view of
+     * this database
+     * @see <a
+     * href="https://console.bluemix.net/docs/services/Cloudant/api/using_views.html#using-views"
+     * target="_blank">Using views</a>
+     */
+    public ViewRequestBuilder getViewRequestBuilder(String partitionKey, String designDoc,
+                                                    String viewName) {
+        return new ViewRequestBuilder(client, this, partitionKey, designDoc, viewName);
     }
 
     /**
