@@ -17,6 +17,7 @@ package com.cloudant.tests;
 import static com.cloudant.client.api.query.Expression.eq;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.cloudant.client.api.Database;
@@ -178,13 +179,16 @@ public class PartitionedDatabaseTest extends TestWithDbPerClass {
         String ddocId = "partitioned_ddoc_query";
 
         // Create index.
-        db.createIndex("{\"index\": {\"fields\": [\"foo\"]}, \"partitioned\": false, \"name\": " +
+        db.createIndex("{\"index\": {\"fields\": [\"foo\"]}, \"partitioned\": true, \"name\": " +
                 "\"foo-index\", \"ddoc\": \"" + ddocId + "\", \"type\": \"json\"}");
 
         String partitionKey = "keyC";
         QueryResult<PartitionDocument> results = db
                 .query(partitionKey, new QueryBuilder(eq("foo", "bar"))
                         .useIndex(ddocId).build(), PartitionDocument.class);
+
+        // Ensure query runs against partitioned index created above.
+        assertNull(results.getWarning());
 
         int count = 0;
         for (PartitionDocument i : results.getDocs()) {
