@@ -1,5 +1,5 @@
 /*
- * Copyright © 2018, 2018 IBM Corp. All rights reserved.
+ * Copyright © 2018 IBM Corp. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
  * except in compliance with the License. You may obtain a copy of the License at
@@ -75,7 +75,7 @@ public class PartitionedDatabaseTest extends TestWithDbPerClass {
         account.createPartitionedDB(dbName);
 
         Database db = account.database(testDbName, false);
-        assertEquals(true, db.info().getPartitioned());
+        assertEquals(true, db.info().getProps().getPartitioned());
     }
 
     @Test
@@ -87,8 +87,8 @@ public class PartitionedDatabaseTest extends TestWithDbPerClass {
         DesignDocument ddoc = new DesignDocument();
         ddoc.setId(ddocId);
 
-        Map<String, Boolean> options = new HashMap<>();
-        options.put("partitioned", true);
+        DesignDocument.Options options = new DesignDocument.Options();
+        options.setPartitioned(true);
         ddoc.setOptions(options);
 
         DesignDocumentManager ddocManager = db.getDesignDocumentManager();
@@ -96,10 +96,10 @@ public class PartitionedDatabaseTest extends TestWithDbPerClass {
 
         // Fetch design document from remote server.
         DesignDocument ddoc2 = ddocManager.get(ddocId);
-        Map<String, Boolean> options2 = ddoc2.getOptions();
+        DesignDocument.Options options2 = ddoc2.getOptions();
 
         assertNotNull(options2);
-        assertTrue(options2.getOrDefault("partitioned", false));
+        assertTrue(options2.getPartitioned());
     }
 
 
@@ -112,8 +112,8 @@ public class PartitionedDatabaseTest extends TestWithDbPerClass {
         DesignDocument ddoc = new DesignDocument();
         ddoc.setId(ddocId);
 
-        Map<String, Boolean> options = new HashMap<>();
-        options.put("partitioned", true);
+        DesignDocument.Options options = new DesignDocument.Options();
+        options.setPartitioned(true);
         ddoc.setOptions(options);
 
         DesignDocument.MapReduce mr = new DesignDocument.MapReduce();
@@ -147,8 +147,8 @@ public class PartitionedDatabaseTest extends TestWithDbPerClass {
         DesignDocument ddoc = new DesignDocument();
         ddoc.setId(ddocId);
 
-        Map<String, Boolean> options = new HashMap<>();
-        options.put("partitioned", true);
+        DesignDocument.Options options = new DesignDocument.Options();
+        options.setPartitioned(true);
         ddoc.setOptions(options);
 
         JsonObject index = new JsonObject();
