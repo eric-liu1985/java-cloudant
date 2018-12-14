@@ -26,8 +26,21 @@ import com.google.gson.annotations.SerializedName;
  */
 public class DbInfo {
 
-    private static class DbInfoProps {
-        private Boolean partitioned = false;
+    /**
+     * Encapsulates database properties.
+     */
+    public static class Props {
+
+        private boolean partitioned = false;
+
+        /**
+         * Get the database partitioned property.
+         *
+         * @return database partition property
+         */
+        public boolean getPartitioned() {
+            return partitioned;
+        }
     }
 
     @SerializedName("db_name")
@@ -48,7 +61,7 @@ public class DbInfo {
     private long instanceStartTime;
     @SerializedName("disk_format_version")
     private int diskFormatVersion;
-    private DbInfoProps props;
+    private Props props;
 
     public String getDbName() {
         return dbName;
@@ -115,8 +128,13 @@ public class DbInfo {
         return diskFormatVersion;
     }
 
-    public Boolean getPartitioned() {
-        return props.partitioned;
+    /**
+     * Get the database properties.
+     *
+     * @return database properties
+     */
+    public Props getProps() {
+        return props;
     }
 
     @Override
