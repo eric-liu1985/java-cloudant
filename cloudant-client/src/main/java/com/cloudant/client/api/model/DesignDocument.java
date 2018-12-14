@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2011 lightcouch.org
- * Copyright (c) 2015 IBM Corp. All rights reserved.
+ * Copyright © 2015, 2018 IBM Corp. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
  * except in compliance with the License. You may obtain a copy of the License at
@@ -69,6 +69,32 @@ import java.util.Map;
  */
 public class DesignDocument extends com.cloudant.client.org.lightcouch.Document {
 
+    /**
+     * Encapsulates design document options.
+     */
+    public static class Options {
+
+        private boolean partitioned;
+
+        /**
+         * Get partitioned option for this design document.
+         *
+         * @return partitioned option
+         */
+        public boolean getPartitioned() {
+            return partitioned;
+        }
+
+        /**
+         * Set the partitioned option for this design document.
+         *
+         * @param partitioned partitioned option
+         */
+        public void setPartitioned(boolean partitioned) {
+            this.partitioned = partitioned;
+        }
+    }
+
     private static final String LANG_QUERY = "query";
     // Default GSON instance for serializing/deserializing JsonElements of views
     private static final Gson GSON = new Gson();
@@ -81,7 +107,7 @@ public class DesignDocument extends com.cloudant.client.org.lightcouch.Document 
     private Map<String, String> shows;
     private Map<String, String> lists;
     private Map<String, String> updates;
-    private Map<String, Boolean> options;
+    private Options options;
     private JsonArray rewrites;
     private JsonObject fulltext;
     private JsonObject indexes;
@@ -203,9 +229,9 @@ public class DesignDocument extends com.cloudant.client.org.lightcouch.Document 
     /**
      * Get the options defined in this design document.
      *
-     * @return map of options
+     * @return design document options, or {@code null} if no options are defined
      */
-    public Map<String, Boolean> getOptions() {
+    public Options getOptions() {
         return options;
     }
 
@@ -322,11 +348,11 @@ public class DesignDocument extends com.cloudant.client.org.lightcouch.Document 
     }
 
     /**
-     * Set the options in this design document.
+     * Set design document options.
      *
-     * @param options map of options
+     * @param options design document options
      */
-    public void setOptions(Map<String, Boolean> options) {
+    public void setOptions(Options options) {
         this.options = options;
     }
 
