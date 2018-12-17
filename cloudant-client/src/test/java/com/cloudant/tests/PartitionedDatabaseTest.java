@@ -126,8 +126,9 @@ public class PartitionedDatabaseTest extends TestWithDbPerClass {
         ddocManager.put(ddoc);
 
         String partitionKey = "keyA";
-        ViewRequest<String, String> viewRequest = db.getViewRequestBuilder(partitionKey, ddocId, "view")
+        ViewRequest<String, String> viewRequest = db.getViewRequestBuilder(ddocId, "view")
                 .newRequest(Key.Type.STRING, String.class)
+                .partition(partitionKey)
                 .build();
 
         int count = 0;
@@ -197,4 +198,5 @@ public class PartitionedDatabaseTest extends TestWithDbPerClass {
         }
         assertEquals(10, count);
     }
+
 }
