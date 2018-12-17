@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015, 2018 IBM Corp. All rights reserved.
+ * Copyright © 2015, 2018 IBM Corp. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
  * except in compliance with the License. You may obtain a copy of the License at
@@ -332,5 +332,23 @@ public interface SettableViewParameters {
          * @since 2.0.0
          */
         RB rowsPerPage(int rowsPerPage);
+    }
+
+    /**
+     * Setters for parameters only available to partitioned queries.
+     *
+     * @param <K>  the type of the key emitted by the view
+     * @param <RB> the type of the request builder returned after each set operation
+     */
+    interface Partitioned<K, RB extends RequestBuilder> extends Common<K, RB> {
+
+        /**
+         * A partition key can be specified when querying data so that results can be constrained
+         * to a specific database partition.
+         *
+         * @param partition database partition key
+         * @return the builder to compose additional parameters or build the request
+         */
+        RB partition(String partition);
     }
 }

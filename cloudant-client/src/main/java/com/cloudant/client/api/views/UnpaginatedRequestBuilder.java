@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015 IBM Corp. All rights reserved.
+ * Copyright © 2015, 2018 IBM Corp. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
  * except in compliance with the License. You may obtain a copy of the License at
@@ -47,5 +47,6 @@ package com.cloudant.client.api.views;
 public interface UnpaginatedRequestBuilder<K, V> extends
         SingleRequestBuilder<K, V, UnpaginatedRequestBuilder<K, V>>,
         SettableViewParameters.Unpaginated<K, UnpaginatedRequestBuilder<K, V>>,
-        SettableViewParameters.Reduceable<K, UnpaginatedRequestBuilder<K, V>> {
+        SettableViewParameters.Reduceable<K, UnpaginatedRequestBuilder<K, V>>,
+        SettableViewParameters.Partitioned<K, UnpaginatedRequestBuilder<K, V>> {
 }

@@ -94,6 +94,8 @@ public class ViewQueryParameters<K, V> extends ParameterAnnotationProcessor impl
     @Parameter(type = Parameter.Type.QUERY_PARAMETER)
     public String update = null;
 
+    @Parameter(type = Parameter.Type.QUERY_PARAMETER)
+    public String partition = null;
 
     /* Constructors */
 
@@ -182,6 +184,14 @@ public class ViewQueryParameters<K, V> extends ParameterAnnotationProcessor impl
 
     public void setInclusiveEnd(boolean inclusive_end) {
         this.inclusive_end = inclusive_end;
+    }
+
+    public String getPartition() {
+        return partition;
+    }
+
+    public void setPartition(String partition_key) {
+        this.partition = partition_key;
     }
 
     @SuppressWarnings("unchecked")

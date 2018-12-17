@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015 IBM Corp. All rights reserved.
+ * Copyright © 2015, 2018 IBM Corp. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
  * except in compliance with the License. You may obtain a copy of the License at
@@ -67,6 +67,12 @@ public class MultipleRequestBuilderImpl<K, V> extends
         } else {
             throw new IllegalStateException("Request is not buildable, call add() before build()");
         }
+    }
+
+    @Override
+    public MultipleRequestBuilder<K, V> partition(String partition) {
+        viewQueryParameters.setPartition(partition);
+        return returnThis();
     }
 
 }
