@@ -31,7 +31,6 @@ public class ViewQueryParameters<K, V> extends ParameterAnnotationProcessor impl
 
     private final CloudantClient client;
     private final Database db;
-    private final String partitionKey;
     private final String designDoc;
     private final String viewName;
     private final Class<K> keyType;
@@ -105,15 +104,14 @@ public class ViewQueryParameters<K, V> extends ParameterAnnotationProcessor impl
      * @param parameters to copy information from
      */
     ViewQueryParameters(ViewQueryParameters<K, V> parameters) {
-        this(parameters.client, parameters.db, parameters.partitionKey, parameters.designDoc,
-                parameters.viewName, parameters.keyType, parameters.valueType);
+        this(parameters.client, parameters.db, parameters.designDoc, parameters.viewName,
+                parameters.keyType, parameters.valueType);
     }
 
-    public ViewQueryParameters(CloudantClient client, Database db, String partitionKey,
-            String designDoc, String viewName, Class<K> keyType, Class<V> valueType) {
+    public ViewQueryParameters(CloudantClient client, Database db, String designDoc, String
+            viewName, Class<K> keyType, Class<V> valueType) {
         this.client = client;
         this.db = db;
-        this.partitionKey = partitionKey;
         //remove _design from design doc name if it exists
         this.designDoc = designDoc;
         this.viewName = viewName;
@@ -122,21 +120,12 @@ public class ViewQueryParameters<K, V> extends ParameterAnnotationProcessor impl
         this.gson = client.getGson();
     }
 
-    public ViewQueryParameters(CloudantClient client, Database db, String designDoc, String
-            viewName, Class<K> keyType, Class<V> valueType) {
-        this(client, db, null, designDoc, viewName, keyType, valueType);
-    }
-
     /* Getters & setters
     * Note that boolean getters return the default value in the case where the parameter is unset.
     * */
 
     public CloudantClient getClient() {
         return client;
-    }
-
-    public String getPartitionKey() {
-        return partitionKey;
     }
 
     public boolean getDescending() {
@@ -329,8 +318,8 @@ public class ViewQueryParameters<K, V> extends ParameterAnnotationProcessor impl
     }
 
     protected DatabaseURIHelper getViewURIBuilder() {
-        return new DatabaseURIHelper(db.getDBUri()).partition(partitionKey).path("_design")
-                .path(designDoc).path("_view").path(viewName);
+        return new DatabaseURIHelper(db.getDBUri()).path("_design").path(designDoc).path("_view")
+                .path(viewName);
     }
 
     JsonElement asJson() {

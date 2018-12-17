@@ -35,34 +35,8 @@ public class ViewRequestBuilder {
 
     private final CloudantClient client;
     private final Database database;
-    private final String partitionKey;
     private final String designDoc;
     private final String viewName;
-
-    /**
-     * <P>
-     * Create a new ViewRequestBuilder for the specified database, partition, design document and
-     * view name.
-     * </P>
-     * <P>
-     * Rather than calling this constructor directly a view request builder instance should be
-     * obtained from a call to {@link Database#getViewRequestBuilder(String String, String)}.
-     * </P>
-     *
-     * @param client    the cloudant client
-     * @param database  the database
-     * @param partitionKey the database partition key
-     * @param designDoc the design doc containing the view (optionally prefixed with "_design/")
-     * @param viewName  the view to build a query request for
-     */
-    public ViewRequestBuilder(CloudantClient client, Database database, String partitionKey,
-            String designDoc, String viewName) {
-        this.client = client;
-        this.database = database;
-        this.partitionKey = partitionKey;
-        this.designDoc = designDoc;
-        this.viewName = viewName;
-    }
 
     /**
      * <P>
@@ -80,7 +54,10 @@ public class ViewRequestBuilder {
      */
     public ViewRequestBuilder(CloudantClient client, Database database, String designDoc, String
             viewName) {
-        this(client, database, null, designDoc, viewName);
+        this.client = client;
+        this.database = database;
+        this.designDoc = designDoc;
+        this.viewName = viewName;
     }
 
     /**
@@ -146,8 +123,8 @@ public class ViewRequestBuilder {
 
     private <K, V> ViewQueryParameters<K, V> newViewRequestParameters(Class<K> keyType, Class<V>
             valueType) {
-        return new ViewQueryParameters<K, V>(client, database, partitionKey, designDoc, viewName,
-                keyType, valueType);
+        return new ViewQueryParameters<K, V>(client, database, designDoc, viewName, keyType,
+                valueType);
     }
 
 }
